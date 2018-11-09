@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <button onclick="get_ajax()">Get</button>
+
+    <script>
+    function get_ajax() {
+        // Variable qui va stockée l'instance de XMLHttpRequest
+        var xhr;
+        // Instance de l'objet XMLHttpRequest
+        if (window.ActiveXObject) { // IE
+            xhr = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        else if (window.XMLHttpRequest) { // Les autres navigateurs
+            xhr = new XMLHttpRequest();
+        }
+        else { // Les navigateurs beaucoup trop vieux ....
+            alert("Votre navigateur n'est pas adapté pour faire des requêtes AJAX...");
+        }
+        // Est ce que XHR n'est pas indefinie..
+        // Est ce que XHR est utilisable...
+        // http://www.site.com
+        // ftp://user:password@site.com
+        if (xhr != undefined) 
+        {
+            // On prepare la requête
+            xhr.open(
+                /* methode*/    'GET', // Methode de requete
+                /* url*/        'https://api.coinmarketcap.com/v2/listings/', // URL 
+                /* async */     true, // facultatif, si false, ne retourne pas la réponse.
+                /* user */      null, // facultatif, Nom d'utilisateur
+                /* password */  null // facultatif, Mot de passe
+            );
+            // Traiter l'état de la requête
+            xhr.onreadystatechange = function()
+            {
+                // readyState
+                // 0 : Non envoyé
+                // 1 : Connexion ouverte, mais send() pas encore appelée
+                // 2 : Headers HTTP reçus, send() est appelée, les headers et statuts sont disponibles
+                // 3 : Chargement en cours..... la réponse est partielle
+                // 4 : Fini !
+                // console.log('Ready State : '+  xhr.readyState );
+                // console.log('Status : '+  xhr.status );
+                
+                // Requete : Success
+                if (xhr.readyState == 4 && xhr.status == 200)
+                {
+                    // console.log('La requete est finie !');
+                    console.log( xhr.responseText );
+                } 
+                // Requete : Error
+                // else 
+                // {
+                //     console.log('Ooops ...');
+                // }
+            }
+            xhr.setRequestHeader('Content-type', 'application/json');
+            // Envois de la requête
+            xhr.send();
+        }
+    }
+    </script>
+</body>
+</html>
